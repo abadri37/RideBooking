@@ -10,7 +10,7 @@ import (
 )
 
 type TripRepository struct {
-	Collection *mongo.Collection
+	Collection MongoCollectionInterface
 }
 
 func NewTripRepository(collection *mongo.Collection) *TripRepository {

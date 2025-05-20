@@ -12,7 +12,7 @@ import (
 )
 
 type DriverLocationRepository struct {
-	Collection *mongo.Collection
+	Collection MongoCollectionInterface
 }
 
 func NewDriverLocationRepository(collection *mongo.Collection) *DriverLocationRepository {
