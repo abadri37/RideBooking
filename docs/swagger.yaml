@@ -1,0 +1,574 @@
+basePath: /
+definitions:
+  ridebooking_internal_model.DriverLocation:
+    properties:
+      driverId:
+        type: string
+      id:
+        type: string
+      isAvailable:
+        type: boolean
+      lastUpdated:
+        type: string
+      location:
+        $ref: '#/definitions/ridebooking_internal_model.Gelocation'
+    type: object
+  ridebooking_internal_model.DriverLocationRequest:
+    properties:
+      driverId:
+        type: string
+      isAvailable:
+        type: boolean
+      location:
+        $ref: '#/definitions/ridebooking_internal_model.Gelocation'
+    type: object
+  ridebooking_internal_model.Gelocation:
+    properties:
+      x:
+        type: number
+      "y":
+        type: number
+    type: object
+  ridebooking_internal_model.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  ridebooking_internal_model.Trip:
+    properties:
+      driverId:
+        type: string
+      endLocation:
+        $ref: '#/definitions/ridebooking_internal_model.Gelocation'
+      endTime:
+        type: string
+      id:
+        type: string
+      riderId:
+        type: string
+      startLocation:
+        $ref: '#/definitions/ridebooking_internal_model.Gelocation'
+      startTime:
+        type: string
+      status:
+        $ref: '#/definitions/ridebooking_internal_model.TripStatus'
+      totalDistance:
+        type: number
+      tripId:
+        type: string
+    type: object
+  ridebooking_internal_model.TripRequest:
+    properties:
+      driverId:
+        type: string
+      endLocation:
+        $ref: '#/definitions/ridebooking_internal_model.Gelocation'
+      endTime:
+        type: string
+      riderId:
+        type: string
+      startLocation:
+        $ref: '#/definitions/ridebooking_internal_model.Gelocation'
+      startTime:
+        type: string
+      status:
+        $ref: '#/definitions/ridebooking_internal_model.TripStatus'
+      totalDistance:
+        type: number
+      tripId:
+        type: string
+    type: object
+  ridebooking_internal_model.TripStatus:
+    enum:
+    - pending
+    - accepted
+    - ongoing
+    - cancelled
+    - completed
+    type: string
+    x-enum-varnames:
+    - TripPending
+    - TripAccepted
+    - TripOngoing
+    - TripCancelled
+    - TripCompleted
+  ridebooking_internal_model.User:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      id:
+        type: string
+      lastName:
+        type: string
+      password:
+        type: string
+      type:
+        $ref: '#/definitions/ridebooking_internal_model.UserType'
+      updatedAt:
+        type: string
+      userId:
+        type: string
+    type: object
+  ridebooking_internal_model.UserRequest:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      type:
+        $ref: '#/definitions/ridebooking_internal_model.UserType'
+      user_id:
+        type: string
+    type: object
+  ridebooking_internal_model.UserType:
+    enum:
+    - Rider
+    - Driver
+    type: string
+    x-enum-varnames:
+    - Rider
+    - Driver
+host: localhost:8090
+info:
+  contact:
+    email: support@ridebooking.com
+    name: API Support
+  description: This is the user management API for ride booking service.
+  title: Ride Booking API
+  version: "1.0"
+paths:
+  /api/ridebooking/driver/availability:
+    put:
+      consumes:
+      - application/json
+      description: Updates the availability status of a driver
+      parameters:
+      - description: Driver availability details
+        in: body
+        name: availability
+        required: true
+        schema:
+          $ref: '#/definitions/ridebooking_internal_model.DriverLocationRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Update driver availability
+      tags:
+      - drivers
+  /api/ridebooking/driver/available:
+    get:
+      description: Retrieves a list of all drivers who are currently available
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ridebooking_internal_model.DriverLocation'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get all available drivers
+      tags:
+      - drivers
+  /api/ridebooking/driver/location:
+    put:
+      consumes:
+      - application/json
+      description: Updates the location of a driver
+      parameters:
+      - description: Driver location details
+        in: body
+        name: location
+        required: true
+        schema:
+          $ref: '#/definitions/ridebooking_internal_model.DriverLocationRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Update driver location
+      tags:
+      - drivers
+  /api/ridebooking/driver/nearby:
+    get:
+      description: Finds available drivers near a specific location
+      parameters:
+      - description: X coordinate
+        in: query
+        name: x
+        required: true
+        type: number
+      - description: Y coordinate
+        in: query
+        name: "y"
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ridebooking_internal_model.DriverLocation'
+            type: array
+        "400":
+          description: Invalid coordinates
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get nearby drivers
+      tags:
+      - drivers
+  /api/ridebooking/trip:
+    get:
+      description: Retrieves a trip by its unique trip ID
+      parameters:
+      - description: Trip ID
+        in: query
+        name: tripId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ridebooking_internal_model.Trip'
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get trip by ID
+      tags:
+      - trips
+    post:
+      consumes:
+      - application/json
+      description: Creates a trip with provided trip details
+      parameters:
+      - description: Trip data
+        in: body
+        name: trip
+        required: true
+        schema:
+          $ref: '#/definitions/ridebooking_internal_model.TripRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Create a new trip
+      tags:
+      - trips
+    put:
+      consumes:
+      - application/json
+      description: Updates trip details
+      parameters:
+      - description: Updated trip data
+        in: body
+        name: trip
+        required: true
+        schema:
+          $ref: '#/definitions/ridebooking_internal_model.TripRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Update a trip
+      tags:
+      - trips
+  /api/ridebooking/trip/driver:
+    get:
+      description: Retrieves all trips associated with a specific driver
+      parameters:
+      - description: Driver ID
+        in: query
+        name: driverId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ridebooking_internal_model.Trip'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get trips by driver ID
+      tags:
+      - trips
+  /api/ridebooking/trip/rider:
+    get:
+      description: Retrieves all trips associated with a specific rider
+      parameters:
+      - description: Rider ID
+        in: query
+        name: riderId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ridebooking_internal_model.Trip'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get trips by rider ID
+      tags:
+      - trips
+  /api/ridebooking/user:
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing user's details
+      parameters:
+      - description: Updated user info
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/ridebooking_internal_model.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Update user details
+      tags:
+      - users
+  /api/ridebooking/user/emailId:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes a user based on email ID
+      parameters:
+      - description: Email ID
+        in: query
+        name: emailId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Delete user by email
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Retrieves user details by email ID
+      parameters:
+      - description: Email ID of the user
+        in: query
+        name: emailId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ridebooking_internal_model.User'
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get user by email
+      tags:
+      - users
+  /api/ridebooking/user/id:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves user details by user ID
+      parameters:
+      - description: User ID
+        in: query
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ridebooking_internal_model.User'
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get user by ID
+      tags:
+      - users
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates user and returns JWT token
+      parameters:
+      - description: User credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/ridebooking_internal_model.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid JSON payload
+          schema:
+            type: string
+        "500":
+          description: Authentication failed
+          schema:
+            type: string
+      summary: User login
+      tags:
+      - users
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Registers a new user in the system
+      parameters:
+      - description: User registration details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/ridebooking_internal_model.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Register a new user
+      tags:
+      - users
+swagger: "2.0"

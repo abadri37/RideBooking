@@ -1,0 +1,603 @@
+{
+	"info": {
+		"_postman_id": "f38f5d46-1971-4a88-af1b-5f8cff907d28",
+		"name": "RideBooking",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9456792"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "RegisterUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"{{driverEmail}}\",\n  \"password\": \"{{driverPassword}}\",\n  \"first_name\": \"Albert\",\n  \"last_name\": \"Xavier\",\n  \"type\": \"Driver\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LoginUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"{{riderEmail}}\",\n  \"password\":\"{{riderPassword}}\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateUser",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": {{riderId}},\n  \"password\": {{riderPassword}},\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"type\": \"Rider\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/api/ridebooking/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"ridebooking",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteUserByEmail",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAZXhhbXBsZS5jb20iLCJpc3MiOiJyaWRlYm9va2luZy1hcHAiLCJleHAiOjE3NDc1NDI2NTAsImlhdCI6MTc0NzQ1NjI1MH0._vmlEk38qvu9_wKQ3xyrmBRjvERe4pQdjQaTI6kqEmo",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8090/api/ridebooking/user/emailId?emailId={{riderId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"ridebooking",
+								"user",
+								"emailId"
+							],
+							"query": [
+								{
+									"key": "emailId",
+									"value": "{{riderId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUserByEmail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AuthToken}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8090/api/ridebooking/user/emailId?emailId={{riderEmail}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"ridebooking",
+								"user",
+								"emailId"
+							],
+							"query": [
+								{
+									"key": "emailId",
+									"value": "{{riderEmail}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUserById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AuthToken}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8090/api/ridebooking/user/id?userId={{riderId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"ridebooking",
+								"user",
+								"id"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "{{riderId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DriverLocation",
+			"item": [
+				{
+					"name": "UpdateDriverLocation",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AuthToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"DriverId\": \"{{driverId}}\",\n  \"IsAvailable\": true,\n  \"location\": {\n    \"x\": 12.34,\n    \"y\": 56.78\n  }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/api/ridebooking/driver/location",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"ridebooking",
+								"driver",
+								"location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateDriverAvailability",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAZXhhbXBsZS5jb20iLCJpc3MiOiJyaWRlYm9va2luZy1hcHAiLCJleHAiOjE3NDc4MTM3MzEsImlhdCI6MTc0NzcyNzMzMX0._HLSacuNaY6WMq3VrrkHf0rdkoIHOx9HVv_oWK5O3W4"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"DriverId\": \"{{driverId}}\",\n  \"IsAvailable\": true,\n  \"location\": {\n    \"x\": 12.34,\n    \"y\": 56.78\n  }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/api/ridebooking/driver/availability",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"ridebooking",
+								"driver",
+								"availability"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllAvailableDrivers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAZXhhbXBsZS5jb20iLCJpc3MiOiJyaWRlYm9va2luZy1hcHAiLCJleHAiOjE3NDc4MTM3MzEsImlhdCI6MTc0NzcyNzMzMX0._HLSacuNaY6WMq3VrrkHf0rdkoIHOx9HVv_oWK5O3W4"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8090/api/ridebooking/driver/available",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"ridebooking",
+								"driver",
+								"available"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetNearbyDrivers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAZXhhbXBsZS5jb20iLCJpc3MiOiJyaWRlYm9va2luZy1hcHAiLCJleHAiOjE3NDc4MTM3MzEsImlhdCI6MTc0NzcyNzMzMX0._HLSacuNaY6WMq3VrrkHf0rdkoIHOx9HVv_oWK5O3W4"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8090/api/ridebooking/driver/nearby?x=12&y=56",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"ridebooking",
+								"driver",
+								"nearby"
+							],
+							"query": [
+								{
+									"key": "x",
+									"value": "12"
+								},
+								{
+									"key": "y",
+									"value": "56"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Trips",
+			"item": [
+				{
+					"name": "CreateTrip",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAZXhhbXBsZS5jb20iLCJpc3MiOiJyaWRlYm9va2luZy1hcHAiLCJleHAiOjE3NDc4MTM3MzEsImlhdCI6MTc0NzcyNzMzMX0._HLSacuNaY6WMq3VrrkHf0rdkoIHOx9HVv_oWK5O3W4"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"RiderId\": \"{{riderId}}\",\n  \"StartLocation\": {\n    \"x\": 12.34,\n    \"y\": 56.78\n  },\n  \"EndLocation\": {\n    \"x\": 98.76,\n    \"y\": 54.32\n  },\n  \"TotalDistance\": 15.5,\n  \"Status\": \"pending\",\n  \"StartTime\": \"{{currentTime}}\",\n  \"EndTime\": \"{{currentTime}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/api/ridebooking/trip",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"ridebooking",
+								"trip"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTripById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAZXhhbXBsZS5jb20iLCJpc3MiOiJyaWRlYm9va2luZy1hcHAiLCJleHAiOjE3NDc4MTM3MzEsImlhdCI6MTc0NzcyNzMzMX0._HLSacuNaY6WMq3VrrkHf0rdkoIHOx9HVv_oWK5O3W4"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8090/api/ridebooking/trip?tripId={{tripId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"ridebooking",
+								"trip"
+							],
+							"query": [
+								{
+									"key": "tripId",
+									"value": "{{tripId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTripByDriverId",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAZXhhbXBsZS5jb20iLCJpc3MiOiJyaWRlYm9va2luZy1hcHAiLCJleHAiOjE3NDc4MTM3MzEsImlhdCI6MTc0NzcyNzMzMX0._HLSacuNaY6WMq3VrrkHf0rdkoIHOx9HVv_oWK5O3W4"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8090/api/ridebooking/trip/driver?driverId={{driverId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"ridebooking",
+								"trip",
+								"driver"
+							],
+							"query": [
+								{
+									"key": "driverId",
+									"value": "{{driverId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTripByRiderId",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAZXhhbXBsZS5jb20iLCJpc3MiOiJyaWRlYm9va2luZy1hcHAiLCJleHAiOjE3NDc4MTM3MzEsImlhdCI6MTc0NzcyNzMzMX0._HLSacuNaY6WMq3VrrkHf0rdkoIHOx9HVv_oWK5O3W4"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8090/api/ridebooking/trip/rider?riderId={{riderId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"ridebooking",
+								"trip",
+								"rider"
+							],
+							"query": [
+								{
+									"key": "riderId",
+									"value": "{{riderId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateTrip",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAZXhhbXBsZS5jb20iLCJpc3MiOiJyaWRlYm9va2luZy1hcHAiLCJleHAiOjE3NDc4MTM3MzEsImlhdCI6MTc0NzcyNzMzMX0._HLSacuNaY6WMq3VrrkHf0rdkoIHOx9HVv_oWK5O3W4"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"DriverId\": \"{{driverId}}\",\n  \"TripId\":\"{{tripId}}\",\n  \"StartLocation\": {\n    \"x\": 12.34,\n    \"y\": 56.78\n  },\n  \"EndLocation\": {\n    \"x\": 98.76,\n    \"y\": 54.32\n  },\n  \"TotalDistance\": 15.5,\n  \"Status\": \"completed\",\n  \"StartTime\": \"{{currentTime}}\",\n  \"EndTime\": \"{{currentTime}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/api/ridebooking/trip",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"ridebooking",
+								"trip"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"const now = new Date().toISOString();",
+					"pm.environment.set(\"currentTime\", now);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "riderEmail",
+			"value": "johndoe@example.com",
+			"type": "string"
+		},
+		{
+			"key": "driverEmail",
+			"value": "albert@example.com",
+			"type": "string"
+		},
+		{
+			"key": "riderPassword",
+			"value": "StrongP@ssw0rd",
+			"type": "string"
+		},
+		{
+			"key": "driverPassword",
+			"value": "StrongP@ssw0rd",
+			"type": "string"
+		},
+		{
+			"key": "riderId",
+			"value": "d4d0e650-9bb3-4e1b-88e5-e70673c905f1",
+			"type": "string"
+		},
+		{
+			"key": "driverId",
+			"value": "4ba4475e-1081-458b-ba49-0ad626dcc462",
+			"type": "string"
+		},
+		{
+			"key": "AuthToken",
+			"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAZXhhbXBsZS5jb20iLCJpc3MiOiJyaWRlYm9va2luZy1hcHAiLCJleHAiOjE3NDc4MTM3MzEsImlhdCI6MTc0NzcyNzMzMX0._HLSacuNaY6WMq3VrrkHf0rdkoIHOx9HVv_oWK5O3W4",
+			"type": "string"
+		},
+		{
+			"key": "tripId",
+			"value": "0c405049-702e-44db-8f80-62aaeb36268d",
+			"type": "string"
+		}
+	]
+}
